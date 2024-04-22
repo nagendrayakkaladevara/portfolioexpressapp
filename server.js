@@ -156,14 +156,15 @@ app.delete('/blog/:id', async (req, res) => {
 
 app.get('/blogcatalog', async (req, res) => {
     try {
-        const blogs = await Blog.find({}, '_id title description.paragraph1 date');
+        const blogs = await Blog.find({}, '_id title description.paragraph1 date_published categories');
 
         // Modify the response to include only id, title, and date
         const modifiedResponse = blogs.map(blog => ({
             id: blog._id,
             title: blog.title,
             into: blog.description[0].paragraph1,
-            date: blog.date
+            date: blog.date_published, 
+            categories: blog.categories
         }));
 
         res.status(200).json(modifiedResponse);
